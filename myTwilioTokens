@@ -1,0 +1,23 @@
+function sendMessage(to, message){
+  const url = 'https://api.twilio.com/2010-04-01/Accounts/AC364c79ba6720757da4470d7a52984847/Messages.json'
+  const token = Utilities.base64Encode(`AC364c79ba6720757da4470d7a52984847:f1ce8da3be6fc61f3ae1c1fef7441254`)
+  const payload = {
+    Body: message,
+    To: to,
+    From: `+17403180659`
+  }
+  const options = {
+    method: "POST", 
+    headers: {
+      "Authorization": "Basic " + token
+    },
+    payload,
+    muteHttpExceptions: true, 
+  }
+  try{
+    const response = UrlFetchApp.fetch(url, options)
+    return JSON.parse(response.getContentText())
+  }catch(error){
+    return error.message
+  }
+}
